@@ -2,13 +2,8 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-
-## Instructions
-
-The starter project has some HTML and CSS styling to display a static version of the Landing Page project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-Link the html to the js file so you can start implementing the main functions you will use to convert the page to dynamic page. 
+* [Development](#Development)
+* [Resources](##Resources)
 
 ## Development 
 wait until the page is loaded to call addSection() that will add forth section dynamically.

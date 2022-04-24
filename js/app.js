@@ -21,8 +21,9 @@
 /**
  * Define Global Variables
  * 
-*/ 
-let secNumber =4 ; 
+*/
+let secNumber = 4;
+let menuId = 1;
 
 /**
  * End Global Variables
@@ -32,28 +33,29 @@ let secNumber =4 ;
 
 
 // Add section to the page
-function addSection(){
-    clearLinks(); 
-    let main = document.querySelector('main'); 
-    let sec = document.createElement('section'); 
-    let div = document.createElement('div'); 
-    let header = document.createElement('h2'); 
+function addSection() {
+    clearLinks();
+    menuId = 1;
+    let main = document.querySelector('main');
+    let sec = document.createElement('section');
+    let div = document.createElement('div');
+    let header = document.createElement('h2');
     let para = document.createElement('p');
-    let para2 = document.createElement('p');  
-    header.textContent = "Section "+secNumber;
-    para.textContent ="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod."; 
+    let para2 = document.createElement('p');
+    header.textContent = "Section " + secNumber;
+    para.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.";
     para2.textContent = "Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.";
-    sec.setAttribute('id','section'+secNumber); 
-    sec.setAttribute('data-nav','Section '+secNumber); 
-    secNumber++;  
-    div.classList.add('landing__container'); 
-    div.appendChild(header); 
-    div.appendChild(para); 
-    div.appendChild(para2); 
-    sec.appendChild(div); 
+    sec.setAttribute('id', 'section' + secNumber);
+    sec.setAttribute('data-nav', 'Section ' + secNumber);
+    secNumber++;
+    div.classList.add('landing__container');
+    div.appendChild(header);
+    div.appendChild(para);
+    div.appendChild(para2);
+    sec.appendChild(div);
     main.appendChild(sec);
-    buildNav();  
-    activateClass(); 
+    buildNav();
+    activateClass();
 }
 
 
@@ -65,58 +67,87 @@ function addSection(){
 
 // Scroll to anchor ID using scrollTO event
 // build the nav and create anchors to scroll down to it 
-function buildNav(){
+function buildNav() {
     let sections = document.querySelectorAll('section');
-    let navList = document.querySelector('#navbar__list'); 
-    for(let section of sections){
-        let listItem = document.createElement('li'); 
-        let anc = document.createElement('a'); 
+    let navList = document.querySelector('#navbar__list');
+    for (let section of sections) {
+        let listItem = document.createElement('li');
+        listItem.id = menuId;
+        menuId++;
+        let anc = document.createElement('a');
         anc.classList.add('menu__link');
-        anc.textContent = section.id;  
-        anc.href = '#'+section.id; 
-        listItem.appendChild(anc); 
+        anc.textContent = section.id;
+        anc.href = '#' + section.id;
+        anc.name = section.id; 
+        listItem.appendChild(anc);
         navList.appendChild(listItem);
+        //add click listener to every link created. 
+        listItem.addEventListener('click',function(e){
+            e.preventDefault(); 
+            let a = document.getElementById(anc.name); 
+            a.scrollIntoView({behavior:"smooth"}); 
+        });
+
     }
- 
+
 }
 //remove links from nav bar when add new link 
-function clearLinks(){
-    let navList = document.querySelector('#navbar__list'); 
-    while(navList.firstChild){
-        navList.removeChild(navList.lastChild); 
+function clearLinks() {
+    let navList = document.querySelector('#navbar__list');
+    while (navList.firstChild) {
+        navList.removeChild(navList.lastChild);
     }
 }
 
 // Add class 'active' to section when near top of viewport
-function activateClass(){
-    let sections = document.querySelectorAll('section'); 
-    window.addEventListener('scroll',function(event){
-       for(let Elem of sections){
-           if(isVisible(Elem)){
-               Elem.classList.add('your-active-class');
-       }
-       else {
-           Elem.classList.remove('your-active-class'); 
-       }
-   }
-   },false); 
-}
-//check if the element is in the ViewPort
-function isVisible(Elem){
-    let bounding = Elem.getBoundingClientRect(); 
-
-    if(bounding.top >= 0 && bounding.left >=0 && 
-        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)&&
-        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-        )
-        {
-        return true ;
+function activateClass() {
+    let sections = document.querySelectorAll('section');
+    window.addEventListener('scroll', function (event) {
+        for (let Elem of sections) {
+            if (isVisible(Elem)) {
+                Elem.classList.add('your-active-class');
+                highlightNav(Elem);
+            }
+            else {
+                Elem.classList.remove('your-active-class');
+            }
         }
+    }, false);
+}
+
+
+//check if the element is in the ViewPort
+function isVisible(Elem) {
+    let bounding = Elem.getBoundingClientRect();
+
+    if (bounding.top >= 0 && bounding.left >= 0 &&
+        bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    ) {
+        return true;
+    }
     else {
-       
-        return false; 
+
+        return false;
     }
 }
+
+//highlight NavBar Based on sections in viewport.
+function highlightNav(Elem) {
+    let listOfLinks = document.querySelectorAll('.menu__link');
+    let id = `#${Elem.id}`;
+    for (link of listOfLinks) {
+        let s = link.href;
+        if (s.includes(id)) {
+            link.classList.add("current");
+        }
+        else {
+            link.classList.remove("current");
+        }
+    }
+
+}
+
 
 
 /**
@@ -131,4 +162,4 @@ function isVisible(Elem){
 
 // Set sections as active
 
-document.addEventListener('DOMContentLoaded',addSection); 
+document.addEventListener('DOMContentLoaded', addSection); 

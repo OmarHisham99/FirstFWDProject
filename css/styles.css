@@ -19,10 +19,6 @@ body {
 }
 
 /* ---- Scroll Behavior ----*/
-html{
-    scroll-behavior: smooth;
-}
-
 
 /* Typeography General*/
 h1 {
@@ -91,6 +87,9 @@ section {
     background: #333;
     color: #fff;
     transition: ease 0.3s all;
+}
+.current{
+    background: #cc1;
 }
 
 /* Header Styles */
