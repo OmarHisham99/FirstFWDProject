@@ -88,11 +88,14 @@ section {
     color: #fff;
     transition: ease 0.3s all;
 }
+
 .current{
     background: #cc1;
 }
 
 /* Header Styles */
+
+
 .page__header {
     background: #fff;
     position: fixed;
