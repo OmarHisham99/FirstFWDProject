@@ -120,10 +120,8 @@ function activateClass() {
 function isVisible(Elem) {
     let bounding = Elem.getBoundingClientRect();
 
-    if (bounding.top >= 0 && bounding.left >= 0 &&
-        bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-    ) {
+    if (bounding.top >= 0  && bounding.top <= 300)
+    {
         return true;
     }
     else {
